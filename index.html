@@ -3,501 +3,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEA Pro - Hệ Thống Ôn Thi Kiến Trúc Máy Tính</title>
-    <!-- Import Google Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>CEA Learning Pro - Full 240+ Questions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --bg-body: #f1f5f9; --bg-card: #ffffff; --text-main: #1e293b;
+            --text-muted: #64748b; --primary: #4f46e5; --success: #10b981;
+            --danger: #ef4444; --border: #e2e8f0; --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-
         [data-theme="dark"] {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: #334155;
+            --bg-body: #0f172a; --bg-card: #1e293b; --text-main: #f1f5f9;
+            --text-muted: #94a3b8; --primary: #818cf8; --success: #34d399;
+            --danger: #f87171; --border: #334155; --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
-
-        * { box-sizing: border-box; transition: all 0.2s ease; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 900px;
-        }
-
-        /* Navbar & Theme Toggle */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .theme-toggle {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            color: var(--text-main);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        }
-
+        * { box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 900px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .theme-btn { background: var(--bg-card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; cursor: pointer; color: var(--text-main); }
+        
         /* Stats Bar */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+        .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .stat-item { background: var(--bg-card); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .stat-value { font-size: 1.5rem; font-weight: 800; display: block; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
 
-        .stat-card {
-            background: var(--card);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-
-        .stat-value { font-size: 1.5rem; font-weight: 700; display: block; }
-        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-        /* Main Quiz Card */
-        .quiz-card {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 6px;
-            background: var(--border);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #a855f7);
-            width: 0%;
-        }
-
-        /* Selection Screen */
-        .setup-screen h2 { margin-top: 0; font-size: 1.8rem; }
+        .card { background: var(--bg-card); border-radius: 20px; padding: 30px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        .progress-container { height: 8px; background: var(--border); border-radius: 4px; margin-bottom: 25px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.4s; }
         
-        select {
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid var(--border);
-            background: var(--card);
-            color: var(--text-main);
-            font-size: 1rem;
-            margin: 20px 0;
-            cursor: pointer;
-            appearance: none;
-        }
-
-        /* Question Styles */
-        .question-meta { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--primary); font-weight: 600; font-size: 0.9rem; }
-        .question-text { font-size: 1.4rem; font-weight: 700; line-height: 1.4; margin-bottom: 30px; }
-
-        .options-list { display: grid; gap: 12px; }
-
-        .option-item {
-            padding: 18px 24px;
-            border-radius: 16px;
-            border: 2px solid var(--border);
-            background: var(--card);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            position: relative;
-        }
-
-        .option-item:hover { border-color: var(--primary); background: rgba(99, 102, 241, 0.05); transform: translateY(-2px); }
-
-        .option-item.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .option-item.wrong { border-color: var(--danger); background: rgba(239, 68, 68, 0.1); color: var(--danger); }
-
-        .option-item.correct::after { content: "✓"; position: absolute; right: 20px; font-weight: bold; }
-        .option-item.wrong::after { content: "✕"; position: absolute; right: 20px; font-weight: bold; }
-
-        /* Buttons */
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .btn-secondary { background: var(--text-muted); box-shadow: none; }
-
-        /* Result Screen */
-        .result-screen { text-align: center; }
-        .result-score { font-size: 5rem; font-weight: 800; color: var(--primary); margin: 20px 0; }
+        select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-main); margin-bottom: 20px; }
+        .question-meta { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .question-text { font-size: 1.2rem; font-weight: 700; line-height: 1.5; margin-bottom: 25px; }
         
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
+        .options-list { display: grid; gap: 10px; }
+        .option { padding: 15px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; font-weight: 500; background: var(--bg-card); position: relative; }
+        .option:hover:not(.disabled) { border-color: var(--primary); }
+        .option.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .option.wrong { border-color: var(--danger); background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .option.disabled { cursor: not-allowed; }
 
-        @media (max-width: 600px) {
-            .quiz-card { padding: 25px; }
-            .question-text { font-size: 1.2rem; }
-        }
+        .feedback { margin: 20px 0; font-weight: 600; text-align: center; min-height: 24px; }
+        .btn { padding: 12px 24px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; background: var(--primary); color: white; width: 100%; }
+        .btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+        .summary { text-align: center; display: none; }
     </style>
 </head>
 <body data-theme="light">
 
-<div class="app-container">
-    <div class="navbar">
-        <div style="display:flex; align-items:center; gap:12px">
-            <div style="background:var(--primary); color:white; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center">
-                <i class="fas fa-microchip"></i>
-            </div>
-            <h2 style="margin:0; letter-spacing:-0.5px">CEA Pro <span style="font-weight:300; color:var(--text-muted)">Learning</span></h2>
-        </div>
-        <button class="theme-toggle" onclick="toggleTheme()">
-            <i class="fas fa-moon"></i>
-        </button>
-    </div>
+<div class="container">
+    <header>
+        <h1 style="font-size: 1.4rem; margin:0">CEA <span style="font-weight:400">Full Revision</span></h1>
+        <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+    </header>
 
-    <div class="stats-grid" id="stats-grid" style="display:none">
-        <div class="stat-card">
-            <span class="stat-value" id="stat-correct" style="color:var(--success)">0</span>
-            <span class="stat-label">Chính xác</span>
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-value" id="correctScore" style="color: var(--success)">0</span>
+            <span class="stat-label">Đúng (Lần đầu)</span>
         </div>
-        <div class="stat-card">
-            <span class="stat-value" id="stat-wrong" style="color:var(--danger)">0</span>
-            <span class="stat-label">Làm sai</span>
-        </div>
-        <div class="stat-card">
-            <span class="stat-value" id="stat-percent">0%</span>
-            <span class="stat-label">Tỷ lệ đúng</span>
+        <div class="stat-item">
+            <span class="stat-value" id="wrongScore" style="color: var(--danger)">0</span>
+            <span class="stat-label">Số lần chọn sai</span>
         </div>
     </div>
 
-    <div class="quiz-card">
-        <div class="progress-container"><div class="progress-fill" id="progress-fill"></div></div>
+    <select id="chapterSelect" onchange="loadChapter()">
+        <option value="0">--- Chọn chương để học ---</option>
+        <option value="1">Chương 1: Lịch sử (ENIAC, IAS)</option>
+        <option value="2">Chương 2: Interconnects & Bus</option>
+        <option value="3">Chương 3: Phân cấp bộ nhớ & Cache</option>
+        <option value="4">Chương 4: Bộ nhớ bán dẫn (RAM, ROM)</option>
+        <option value="5">Chương 5: Bộ nhớ ngoài (Disk, RAID)</option>
+        <option value="6">Chương 6: Hệ thống I/O</option>
+        <option value="7">Chương 7: Hệ điều hành (OS)</option>
+        <option value="8">Chương 8: Hệ thống số (Full 17 câu)</option>
+        <option value="9">Chương 9: Logic số (Gates, Flip-flops)</option>
+        <option value="10">Chương 10: Đặc điểm tập lệnh</option>
+        <option value="11">Chương 11: Chế độ địa chỉ</option>
+        <option value="12">Chương 12: Cấu trúc CPU & Pipeline</option>
+        <option value="13">Chương 13: RISC</option>
+        <option value="14">Chương 14: Superscalar</option>
+        <option value="15">Chương 15: Xử lý song song</option>
+        <option value="16">Chương 16: Đa lõi (Multicore)</option>
+        <option value="all">TẤT CẢ CÁC CHƯƠNG (FULL)</option>
+    </select>
 
-        <!-- Setup Screen -->
-        <div id="setup-screen" class="setup-screen fade-in">
-            <h2>Chào mừng bạn!</h2>
-            <p style="color:var(--text-muted)">Chọn chương bạn muốn luyện tập để bắt đầu bài thi trắc nghiệm.</p>
-            
-            <select id="chapter-select">
-                <option value="all">🚀 Toàn bộ ngân hàng câu hỏi (~230 câu)</option>
-                <option value="1">1. Lịch sử & Tổng quan (ENIAC, IAS)</option>
-                <option value="2">2. Hệ thống phân cấp & Bus</option>
-                <option value="3">3. Bộ nhớ Cache</option>
-                <option value="4">4. Bộ nhớ trong (RAM, ROM)</option>
-                <option value="5">5. Bộ nhớ ngoài (Disk, RAID)</option>
-                <option value="6">6. Hệ thống I/O (DMA, Thunderbolt)</option>
-                <option value="7">7. Hệ điều hành (OS)</option>
-                <option value="8">8. Hệ thống số (Binary, Hex)</option>
-                <option value="9">9. Logic số (Gates, Flip-flops)</option>
-                <option value="10">10. Tập lệnh (Instruction Sets)</option>
-                <option value="11">11. Chế độ địa chỉ</option>
-                <option value="12">12. Cấu trúc CPU & Pipelining</option>
-                <option value="13">13. RISC</option>
-                <option value="14">14. Superscalar</option>
-                <option value="15">15. Xử lý song song</option>
-                <option value="16">16. Đa lõi (Multicore)</option>
-            </select>
-
-            <button class="btn" onclick="startQuiz()" style="width:100%; justify-content:center">
-                Bắt đầu ngay <i class="fas fa-arrow-right"></i>
-            </button>
+    <div class="card">
+        <div id="quizContent" style="display:none">
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="question-meta"><span id="chapterInfo"></span><span id="counterInfo"></span></div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options-list" id="optionsList"></div>
+            <div class="feedback" id="feedback"></div>
+            <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Câu tiếp theo</button>
         </div>
-
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" style="display:none" class="fade-in">
-            <div class="question-meta">
-                <span id="meta-chapter">Chương 1</span>
-                <span id="meta-index">Câu hỏi 1/30</span>
-            </div>
-            <div class="question-text" id="question-text">Loading...</div>
-            <div class="options-list" id="options-list"></div>
-            
-            <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:center">
-                <div id="feedback-text" style="font-weight:600"></div>
-                <button class="btn" id="next-btn" onclick="renderQuestion()" disabled>
-                    Câu tiếp theo <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Result Screen -->
-        <div id="result-screen" style="display:none" class="result-screen fade-in">
-            <i class="fas fa-trophy" style="font-size:4rem; color:var(--warning)"></i>
-            <h2>Kết quả bài thi</h2>
-            <div class="result-score" id="final-score">25/30</div>
-            <p id="result-comment" style="color:var(--text-muted); margin-bottom:30px"></p>
-            <button class="btn" onclick="location.reload()">
-                <i class="fas fa-undo"></i> Thử lại chương này
-            </button>
+        <div class="summary" id="summaryArea">
+            <i class="fas fa-trophy" style="font-size:3rem; color:var(--success)"></i>
+            <h2>Hoàn thành!</h2>
+            <p>Bạn đã xem qua hết các câu hỏi trong phần này.</p>
+            <button class="btn" onclick="location.reload()">Chọn chương khác</button>
         </div>
     </div>
 </div>
 
 <script>
-// DỮ LIỆU CÂU HỎI (RÚT GỌN MẪU - BẠN CÓ THỂ CHÈN ĐẦY ĐỦ Ở ĐÂY)
-const bank = [
-    // SET 1: History
-    { ch: 1, name: "Lịch sử", q: "The _________ was the world’s first general-purpose electronic digital computer.", a: ["UNIVAC", "MARK IV", "ENIAC", "Hollerith’s Counting Machine"], c: 2 },
-    { ch: 1, name: "Lịch sử", q: "The ENIAC project was a response to U.S. needs during _________.", a: ["the Civil War", "the French-American War", "World War I", "World War II"], c: 3 },
-    { ch: 1, name: "Lịch sử", q: "The ENIAC used __________.", a: ["vacuum tubes", "integrated circuits", "IAS", "transistors"], c: 0 },
-    { ch: 1, name: "Lịch sử", q: "The ENIAC is an example of a _________ generation computer.", a: ["first", "second", "third", "fourth"], c: 0 },
-    { ch: 1, name: "Lịch sử", q: "The __________ interprets the instructions in memory and causes them to be executed.", a: ["main memory", "control unit", "I/O", "arithmetic and logic unit"], c: 1 },
-    { ch: 1, name: "Lịch sử", q: "The memory of the IAS consists of 1000 storage locations called _________.", a: ["opcodes", "wafers", "VLSIs", "words"], c: 3 },
-    { ch: 1, name: "Lịch sử", q: "The __________ contains the 8-bit opcode instruction being executed.", a: ["MBR", "IBR", "instruction register", "MAR"], c: 2 },
-    { ch: 1, name: "Lịch sử", q: "During the _________ the opcode is loaded into the IR and the address is loaded into the MAR.", a: ["execute cycle", "fetch cycle", "instruction cycle", "clock cycle"], c: 1 },
-    { ch: 1, name: "Lịch sử", q: "Second generation computers used _________.", a: ["integrated circuits", "transistors", "vacuum tubes", "large-scale integration"], c: 1 },
-    { ch: 1, name: "Lịch sử", q: "The __________ defines the third generation of computers.", a: ["integrated circuit", "vacuum tube", "transistor", "VLSI"], c: 0 },
-    { ch: 1, name: "Lịch sử", q: "The use of multiple processors on the same chip is referred to as __________.", a: ["multicore", "GPU", "data channels", "MPC"], c: 0 },
-    { ch: 1, name: "Lịch sử", q: "Intel introduced superscalar techniques in which processor?", a: ["Core", "8080", "80486", "Pentium"], c: 3 },
-    { ch: 1, name: "Lịch sử", q: "The __________ measures the ability of a computer to complete a single task.", a: ["clock speed", "speed metric", "execute cycle", "cycle time"], c: 1 },
-    { ch: 1, name: "Lịch sử", q: "ARM processors are designed to meet the needs of _________.", a: ["embedded real-time", "application platforms", "secure apps", "all of the above"], c: 3 },
-    { ch: 1, name: "Lịch sử", q: "One increment, or pulse, of the system clock is referred to as a _________.", a: ["clock tick", "cycle time", "clock rate", "cycle speed"], c: 0 },
+const masterData = [
+    // CHƯƠNG 1 -> 7 (Giữ nguyên dữ liệu)
+    { ch: 1, q: "The _________ was the world’s first general-purpose electronic digital computer.", a: ["UNIVAC", "MARK IV", "ENIAC", "Hollerith’s Counting Machine"], c: 2 },
+    { ch: 1, q: "The ENIAC project was a response to U.S. needs during _________.", a: ["the Civil War", "the French-American War", "World War I", "World War II"], c: 3 },
+    { ch: 1, q: "The ENIAC used __________.", a: ["vacuum tubes", "integrated circuits", "IAS", "transistors"], c: 0 },
+    { ch: 1, q: "The ENIAC is an example of a _________ generation computer.", a: ["first", "second", "third", "fourth"], c: 0 },
+    { ch: 1, q: "The __________ interprets the instructions in memory and causes them to be executed.", a: ["main memory", "control unit", "I/O", "arithmetic and logic unit"], c: 1 },
+    { ch: 1, q: "The memory of the IAS consists of 1000 storage locations called _________.", a: ["opcodes", "wafers", "VLSIs", "words"], c: 3 },
+    { ch: 1, q: "The __________ contains the 8-bit opcode instruction being executed.", a: ["memory buffer register", "instruction buffer register", "instruction register", "memory address register"], c: 2 },
+    { ch: 1, q: "During the _________ the opcode of the next instruction is loaded into the IR and the address portion is loaded into the MAR.", a: ["execute cycle", "fetch cycle", "instruction cycle", "clock cycle"], c: 1 },
+    { ch: 1, q: "Second generation computers used _________.", a: ["integrated circuits", "transistors", "vacuum tubes", "large-scale integration"], c: 1 },
+    { ch: 1, q: "The __________ defines the third generation of computers.", a: ["integrated circuit", "vacuum tube", "transistor", "VLSI"], c: 0 },
+    { ch: 1, q: "The use of multiple processors on the same chip is referred to as __________.", a: ["multicore", "GPU", "data channels", "MPC"], c: 0 },
+    { ch: 1, q: "With the __________, Intel introduced the use of superscalar techniques that allow multiple instructions to execute in parallel.", a: ["Core", "8080", "80486", "Pentium"], c: 3 },
+    { ch: 1, q: "The __________ measures the ability of a computer to complete a single task.", a: ["clock speed", "speed metric", "execute cycle", "cycle time"], c: 1 },
+    { ch: 1, q: "ARM processors are designed to meet the needs of _________.", a: ["embedded real-time systems", "application platforms", "secure applications", "all of the above"], c: 3 },
+    { ch: 1, q: "One increment, or pulse, of the system clock is referred to as a _________.", a: ["clock tick", "cycle time", "clock rate", "cycle speed"], c: 0 },
+    
+    // CHƯƠNG 2
+    { ch: 2, q: "Virtually all contemporary computer designs are based on concepts developed by __________ at Princeton.", a: ["John Maulchy", "John von Neumann", "Herman Hollerith", "John Eckert"], c: 1 },
+    { ch: 2, q: "A sequence of codes or instructions is called _________.", a: ["software", "memory", "an interconnect", "a register"], c: 0 },
+    { ch: 2, q: "The processing required for a single instruction is called a(n) __________ cycle.", a: ["execute", "fetch", "instruction", "packet"], c: 2 },
+    { ch: 2, q: "A(n) _________ is generated by a failure such as power failure or memory parity error.", a: ["I/O interrupt", "hardware failure interrupt", "timer interrupt", "program interrupt"], c: 1 },
+    { ch: 2, q: "A(n) _________ is generated by result of an instruction execution.", a: ["timer", "I/O", "program interrupt", "hardware failure"], c: 2 },
+    { ch: 2, q: "A bus that connects major computer components (processor, memory, I/O) is called a _________.", a: ["system bus", "address bus", "data bus", "control bus"], c: 0 },
+    { ch: 2, q: "The __________ are used to designate the source or destination of the data on the data bus.", a: ["system lines", "data lines", "control lines", "address lines"], c: 3 },
+    { ch: 2, q: "The data lines provide a path for moving data among system modules and are collectively called the _________.", a: ["control bus", "address bus", "data bus", "system bus"], c: 2 },
+    { ch: 2, q: "A __________ is the high-level set of rules for exchanging packets of data between devices.", a: ["bus", "protocol", "packet", "QPI"], c: 1 },
+    { ch: 2, q: "Each data path consists of a pair of wires (referred to as a __________) that transmits data one bit at a time.", a: ["lane", "path", "line", "bus"], c: 0 },
+    { ch: 2, q: "The _________ receives read and write requests from the software above the TL.", a: ["transaction layer", "root layer", "configuration layer", "transport layer"], c: 0 },
+    { ch: 2, q: "The TL supports which of the following address spaces?", a: ["memory", "I/O", "message", "all of the above"], c: 3 },
+    { ch: 2, q: "The QPI _________ layer is used to determine the course that a packet will traverse.", a: ["link", "protocol", "routing", "physical"], c: 2 },
 
-    // SET 2: Interconnects
-    { ch: 2, name: "Bus & Interconnect", q: "Virtually all contemporary computer designs are based on concepts developed by _________ at IAS.", a: ["John Maulchy", "John von Neumann", "Herman Hollerith", "John Eckert"], c: 1 },
-    { ch: 2, name: "Bus & Interconnect", q: "A sequence of codes or instructions is called _________.", a: ["software", "memory", "an interconnect", "a register"], c: 0 },
-    { ch: 2, name: "Bus & Interconnect", q: "The processing required for a single instruction is called a(n) __________ cycle.", a: ["execute", "fetch", "instruction", "packet"], c: 2 },
-    { ch: 2, name: "Bus & Interconnect", q: "A(n) _________ is generated by a failure such as power failure or memory parity error.", a: ["I/O interrupt", "hardware failure interrupt", "timer interrupt", "program interrupt"], c: 1 },
-    { ch: 2, name: "Bus & Interconnect", q: "A(n) _________ is generated by result of an instruction execution.", a: ["timer interrupt", "I/O interrupt", "program interrupt", "hardware failure"], c: 2 },
-    { ch: 2, name: "Bus & Interconnect", q: "A bus that connects major computer components (processor, memory, I/O) is a _________.", a: ["system bus", "address bus", "data bus", "control bus"], c: 0 },
-    { ch: 2, name: "Bus & Interconnect", q: "The __________ are used to designate the source or destination of data on the bus.", a: ["system lines", "data lines", "control lines", "address lines"], c: 3 },
-    { ch: 2, name: "Bus & Interconnect", q: "High-level set of rules for exchanging packets is called a _________.", a: ["bus", "protocol", "packet", "QPI"], c: 1 },
-    { ch: 2, name: "Bus & Interconnect", q: "QPI ________ layer is used to determine the course a packet will traverse.", a: ["link", "protocol", "routing", "physical"], c: 2 },
+    // CHƯƠNG 3
+    { ch: 3, q: "__________ refers to whether memory is internal or external to the computer.", a: ["Location", "Access", "Hierarchy", "Tag"], c: 0 },
+    { ch: 3, q: "Internal memory capacity is typically expressed in terms of _________.", a: ["Hertz", "Nanos", "Bytes", "LOR"], c: 2 },
+    { ch: 3, q: "For internal memory, the __________ is equal to the number of electrical lines into and out of the memory module.", a: ["Access time", "Unit of transfer", "Capacity", "Memory ratio"], c: 1 },
+    { ch: 3, q: "'Memory is organized into records and access must be made in a specific linear sequence' is a description of _________.", a: ["Sequential access", "Direct access", "Random access", "Associative"], c: 0 },
+    { ch: 3, q: "Individual blocks or records have a unique address based on physical location with _________.", a: ["Associative", "Physical access", "Direct access", "Sequential access"], c: 2 },
+    { ch: 3, q: "For random-access memory, __________ is the time from the instant that an address is presented to the memory to the instant that data have been stored.", a: ["Memory cycle time", "Direct access", "Transfer rate", "Access time"], c: 3 },
+    { ch: 3, q: "The ________ consists of the access time plus any additional time required before a second access can commence.", a: ["Latency", "Memory cycle time", "Direct access", "Transfer rate"], c: 1 },
+    { ch: 3, q: "A portion of main memory used as a buffer to hold data temporarily that is to be read out to disk is referred to as a _________.", a: ["Disk cache", "Latency", "Virtual address", "Miss"], c: 0 },
+    { ch: 3, q: "A line includes a _________ that identifies which particular block is currently being stored.", a: ["Cache", "Hit", "Tag", "Locality"], c: 2 },
+    { ch: 3, q: "__________ is the simplest mapping technique and maps each block of main memory into only one possible cache line.", a: ["Direct mapping", "Associative mapping", "Set associative mapping", "None of the above"], c: 0 },
+    { ch: 3, q: "When using the __________ technique all write operations made to main memory are made to the cache as well.", a: ["Write back", "LRU", "Write through", "Unified cache"], c: 2 },
+    { ch: 3, q: "The key advantage of the __________ design is that it eliminates contention for the cache between instruction fetch unit and execution unit.", a: ["Logical cache", "Split cache", "Unified cache", "Physical cache"], c: 1 },
+    { ch: 3, q: "The Pentium 4 _________ component executes micro-operations, fetching required data from L1 data cache.", a: ["Fetch/decode unit", "Out-of-order execution logic", "Execution unit", "Memory subsystem"], c: 2 },
+    { ch: 3, q: "In reference to access time to a two-level memory, a _________ occurs if an accessed word is not found in the faster memory.", a: ["Miss", "Hit", "Line", "Tag"], c: 0 },
+    { ch: 3, q: "A logical cache stores data using _________.", a: ["Physical addresses", "Virtual addresses", "Random addresses", "None of the above"], c: 1 },
 
-    // SET 3: Cache
-    { ch: 3, name: "Cache Memory", q: "Internal memory capacity is typically expressed in terms of _________.", a: ["Hertz", "Nanos", "Bytes", "LOR"], c: 2 },
-    { ch: 3, name: "Cache Memory", q: "Memory organized into records and access made in specific linear sequence is:", a: ["Sequential access", "Direct access", "Random access", "Associative"], c: 0 },
-    { ch: 3, name: "Cache Memory", q: "For random-access memory, __________ is the time from address presentation to data storage.", a: ["Memory cycle", "Direct access", "Transfer rate", "Access time"], c: 3 },
-    { ch: 3, name: "Cache Memory", q: "Main memory used as a buffer to hold data for disk read-out is _________.", a: ["Disk cache", "Latency", "Virtual address", "Miss"], c: 0 },
-    { ch: 3, name: "Cache Memory", q: "__________ is the simplest mapping technique for cache.", a: ["Direct mapping", "Associative", "Set associative", "None"], c: 0 },
-    { ch: 3, name: "Cache Memory", q: "Logical cache stores data using __________.", a: ["Physical addresses", "Virtual addresses", "Random addresses", "None"], c: 1 },
+    // CHƯƠNG 4
+    { ch: 4, q: "Which properties do all semiconductor memory cells share?", a: ["two stable states", "capable of being written to set state", "capable of being read to sense state", "all of the above"], c: 3 },
+    { ch: 4, q: "Memory that is designated as _________ is possible to both read data and write data easily and rapidly.", a: ["RAM", "ROM", "EPROM", "EEPROM"], c: 0 },
+    { ch: 4, q: "Which of the following memory types are nonvolatile?", a: ["erasable PROM", "programmable ROM", "flash memory", "all of the above"], c: 3 },
+    { ch: 4, q: "In a _________, binary values are stored using traditional flip-flop logic-gate configurations.", a: ["ROM", "SRAM", "DRAM", "RAM"], c: 1 },
+    { ch: 4, q: "A __________ contains a permanent pattern of data that cannot be changed, is nonvolatile, and cannot be rewritten.", a: ["RAM", "SRAM", "ROM", "flash memory"], c: 2 },
+    { ch: 4, q: "With _________ the microchip is organized so that a section of memory cells are erased in a single action.", a: ["flash memory", "SDRAM", "DRAM", "EEPROM"], c: 0 },
+    { ch: 4, q: "__________ can be caused by harsh environmental abuse, manufacturing defects, and wear.", a: ["SEC errors", "Hard errors", "Syndrome errors", "Soft errors"], c: 1 },
+    { ch: 4, q: "Soft errors can be caused by power supply problems or alpha particles.", a: ["Soft errors", "AGT errors", "Hard errors", "SEC errors"], c: 0 },
+    { ch: 4, q: "The _________ exchanges data with processor synchronized to external clock signal without wait states.", a: ["DDR-DRAM", "SDRAM", "CDRAM", "none of the above"], c: 1 },
+    { ch: 4, q: "DDR-DRAM can send data to the processor twice per clock cycle.", a: ["CDRAM", "SDRAM", "DDR-DRAM", "RDRAM"], c: 2 },
+    { ch: 4, q: "__________ increases data transfer rate by increasing operational frequency and prefetch buffer from 2 bits to 4 bits.", a: ["DDR2", "RDRAM", "CDRAM", "DDR3"], c: 0 },
+    { ch: 4, q: "DDR3 increases the prefetch buffer size to 8 bits.", a: ["CDRAM", "RDRAM", "DDR3", "all of the above"], c: 2 },
+    { ch: 4, q: "Theoretically, a DDR module can transfer data at a clock rate in range of 400-1066 MHz.", a: ["200 to 600", "400 to 1066", "600 to 1400", "800 to 1600"], c: 1 },
+    { ch: 4, q: "A DDR3 module transfers data at a clock rate of 800 to 1600 MHz.", a: ["600 to 1200", "800 to 1600", "1000 to 2000", "1500 to 3000"], c: 1 },
+    { ch: 4, q: "The buffer enables the RAM chip to preposition bits to be placed on the data bus rapidly.", a: ["flash memory", "Hamming code", "RamBus", "buffer"], c: 3 },
 
-    // SET 4: Internal Memory
-    { ch: 4, name: "Internal Memory", q: "Which properties do all semiconductor memory cells share?", a: ["two stable states", "capable of being written", "capable of being read", "all of the above"], c: 3 },
-    { ch: 4, name: "Internal Memory", q: "Which memory types are nonvolatile?", a: ["erasable PROM", "programmable ROM", "flash memory", "all of the above"], c: 3 },
-    { ch: 4, name: "Internal Memory", q: "In a _________, binary values are stored using traditional flip-flop logic-gate configurations.", a: ["ROM", "SRAM", "DRAM", "RAM"], c: 1 },
-    { ch: 4, name: "Internal Memory", q: "The _________ exchanges data with processor synchronized to external clock signal.", a: ["DDR-DRAM", "SDRAM", "CDRAM", "PROM"], c: 1 },
-    { ch: 4, name: "Internal Memory", q: "__________ increases the prefetch buffer size to 8 bits.", a: ["CDRAM", "RDRAM", "DDR3", "DDR2"], c: 2 },
-
-    // SET 5: External Memory
-    { ch: 5, name: "External Memory", q: "Adjacent tracks are separated by _________.", a: ["sectors", "gaps", "pits", "heads"], c: 1 },
+    // CHƯƠNG 5
+    { ch: 5, q: "Greater ability to withstand shock, improvement in magnet film surface are benefits of _________.", a: ["magnetic mechanisms", "platters", "the glass substrate", "a solid state drive"], c: 2 },
+    { ch: 5, q: "Adjacent tracks are separated by _________.", a: ["sectors", "gaps", "pits", "heads"], c: 1 },
     { ch: 5, q: "Data are transferred to and from the disk in _________.", a: ["tracks", "gaps", "sectors", "pits"], c: 2 },
-    { ch: 5, q: "Sum of seek time and rotational delay equals _________.", a: ["access time", "gap time", "transfer time", "latency"], c: 0 },
-    { ch: 5, q: "RAID level ________ has the highest disk overhead.", a: ["RAID 0", "RAID 1", "RAID 3", "RAID 5"], c: 1 },
-    { ch: 5, q: "Areas between pits on an optical disk are called _________.", a: ["lands", "sectors", "cylinders", "strips"], c: 0 },
+    { ch: 5, q: "In most contemporary systems fixed-length sectors are used, with _________ bytes size.", a: ["64", "128", "256", "512"], c: 3 },
+    { ch: 5, q: "Scanning information at same rate by rotating disk at fixed speed is known as _________.", a: ["CAV", "magnetoresistive", "rotational delay", "CLV"], c: 0 },
+    { ch: 5, q: "The disadvantage of CAV is that data on long outer tracks is same as short inner tracks.", a: ["SSD", "CAV", "ROM", "CLV"], c: 1 },
+    { ch: 5, q: "A nonremovable disk is permanently mounted in the disk drive.", a: ["nonremovable", "movable-head", "double sided", "removable"], c: 0 },
+    { ch: 5, q: "When magnetizable coating is applied to both sides of platter it is double sided.", a: ["multiple sided", "substrate", "double sided", "all of the above"], c: 2 },
+    { ch: 5, q: "Set of all tracks in same relative position on platter is a cylinder.", a: ["floppy disk", "single-sided", "sector", "cylinder"], c: 3 },
+    { ch: 5, q: "Sum of seek time and rotational delay equals access time.", a: ["access time", "gap time", "transfer time", "CAV"], c: 0 },
+    { ch: 5, q: "RAID is standardized scheme for multiple-disk database design.", a: ["RAID", "CAV", "CLV", "SSD"], c: 0 },
+    { ch: 5, q: "RAID level 1 has highest disk overhead of all RAID types.", a: ["0", "1", "3", "5"], c: 1 },
+    { ch: 5, q: "A Blu-ray DVD is high-definition video disk that can store 25 Gbytes.", a: ["DVD", "DVD-R", "DVD-RW", "Blu-ray DVD"], c: 3 },
+    { ch: 5, q: "CLV is when disk rotates more slowly for outer edge than center.", a: ["CAV", "magnetoresistive", "CLV", "Seek time"], c: 2 },
+    { ch: 5, q: "The areas between pits are called lands.", a: ["lands", "sectors", "cylinders", "strips"], c: 0 },
 
-    // SET 6: I/O
-    { ch: 6, name: "Input/Output", q: "The most common means of computer/user interaction is _________.", a: ["keyboard/monitor", "mouse/printer", "modem/printer", "monitor/printer"], c: 0 },
-    { ch: 6, q: "DMA forcing the processor to suspend operation temporarily is _________.", a: ["Interrupt", "Thunderbolt", "Cycle stealing", "Lock down"], c: 2 },
-    { ch: 6, q: "Thunderbolt protocol _________ layer is responsible for link maintenance and hot-plug detection.", a: ["cable", "application", "common transport", "physical"], c: 3 },
+    // CHƯƠNG 6
+    { ch: 6, q: "The I/O module contains logic for communication between peripheral and bus.", a: ["I/O channel", "I/O module", "I/O processor", "I/O command"], c: 1 },
+    { ch: 6, q: "The most common means of computer/user interaction is keyboard/monitor.", a: ["keyboard/monitor", "mouse/printer", "modem/printer", "monitor/printer"], c: 0 },
+    { ch: 6, q: "The I/O function includes control and timing requirement to coordinate traffic.", a: ["cycle", "status reporting", "control and timing", "data"], c: 2 },
+    { ch: 6, q: "An I/O module that takes on most detailed processing burden is an I/O channel.", a: ["I/O channel", "I/O command", "I/O controller", "device controller"], c: 0 },
+    { ch: 6, q: "An I/O module that is primitive and requires detailed control is an I/O controller.", a: ["I/O command", "I/O controller", "I/O channel", "I/O processor"], c: 1 },
+    { ch: 6, q: "The write command causes I/O module to take data from bus and transmit to peripheral.", a: ["control", "test", "read", "write"], c: 3 },
+    { ch: 6, q: "The control command is used to activate a peripheral and tell it what to do.", a: ["control", "test", "read", "write"], c: 0 },
+    { ch: 6, q: "Cycle stealing is when DMA module must force processor to suspend operation.", a: ["Interrupt", "Thunderbolt", "Cycle stealing", "Lock down"], c: 2 },
+    { ch: 6, q: "The 8237 DMA is known as a fly-by DMA controller.", a: ["command", "cycle stealing", "interrupt", "fly-by"], c: 3 },
+    { ch: 6, q: "DisplayPort is a digital display interface standard for monitors.", a: ["DisplayPort", "PCI Express", "Thunderbolt", "InfiniBand"], c: 0 },
+    { ch: 6, q: "The common transport layer is key to Thunderbolt attractive as high-speed I/O.", a: ["cable", "application", "common transport", "physical"], c: 2 },
+    { ch: 6, q: "The Thunderbolt physical layer is responsible for link maintenance and hot-plug.", a: ["cable", "application", "common transport", "physical"], c: 3 },
+    { ch: 6, q: "The application contains I/O protocols mapped on to transport layer.", a: ["cable", "application", "common transport", "physical"], c: 1 },
+    { ch: 6, q: "A TCA is used to connect storage systems to InfiniBand switch.", a: ["TCA", "InfiniBand switch", "HCA", "subnet"], c: 0 },
+    { ch: 6, q: "A router connects InfiniBand subnets or to a LAN/WAN.", a: ["memory controller", "TCA", "HCA", "router"], c: 3 },
 
-    // SET 7: OS
-    { ch: 7, name: "Operating System", q: "The ________ defines the repertoire of machine language instructions.", a: ["ABI", "API", "HLL", "ISA"], c: 3 },
-    { ch: 7, q: "The ________ scheduler is also known as the dispatcher.", a: ["long-term", "medium-term", "short-term", "I/O"], c: 2 },
-    { ch: 7, q: "Processor spending most of its time swapping pages rather than executing is _________.", a: ["Swapping", "Thrashing", "Paging", "Multitasking"], c: 1 },
-    { ch: 7, q: "OS maintains a __________ for each process to show frame locations.", a: ["kernel", "page table", "TLB", "logical address"], c: 1 },
+    // CHƯƠNG 7
+    { ch: 7, q: "The operating system is a program that controls execution of applications.", a: ["JCL", "operating system", "batch system", "nucleus"], c: 1 },
+    { ch: 7, q: "Facilities provided by OS to assist programmer are in form of utility programs.", a: ["utility", "multitasking", "JCL", "logical address"], c: 0 },
+    { ch: 7, q: "The ISA defines the repertoire of machine language instructions.", a: ["ABI", "API", "HLL", "ISA"], c: 3 },
+    { ch: 7, q: "The ABI defines system call interface to OS and hardware resources.", a: ["HLL", "API", "ABI", "ISA"], c: 2 },
+    { ch: 7, q: "The API gives program access to hardware supplemented with HLL library calls.", a: ["JCL", "ISA", "ABI", "API"], c: 3 },
+    { ch: 7, q: "A uniprogramming system works only one program at a time.", a: ["batch", "uniprogramming", "kernel", "privileged instruction"], c: 1 },
+    { ch: 7, q: "A JCL is a special type of programming language to provide instructions to monitor.", a: ["JCL", "multiprogram", "kernel", "utility"], c: 0 },
+    { ch: 7, q: "The long-term scheduler determines which programs are admitted to system.", a: ["long-term", "medium-term", "short-term", "I/O"], c: 0 },
+    { ch: 7, q: "The short-term scheduler is also known as the dispatcher.", a: ["long-term", "medium-term", "short-term", "I/O"], c: 2 },
+    { ch: 7, q: "A physical address is an actual location in main memory.", a: ["logical address", "partition address", "base address", "physical address"], c: 3 },
+    { ch: 7, q: "Thrashing is when processor spends most of time swapping pages.", a: ["Swapping", "Thrashing", "Paging", "Multitasking"], c: 1 },
+    { ch: 7, q: "TLB is special cache for page table entries.", a: ["TLB", "HLL", "VMC", "SPB"], c: 0 },
+    { ch: 7, q: "With unsegmented unpaged memory the virtual address is same as physical.", a: ["unsegmented unpaged", "unsegmented paged", "segmented unpaged", "segmented paged"], c: 0 },
+    { ch: 7, q: "A domain is a collection of memory regions.", a: ["APX", "nucleus", "domain", "page table"], c: 2 },
+    { ch: 7, q: "The OS maintains a page table for each process showing frame locations.", a: ["kernel", "page table", "TLB", "logical address"], c: 1 },
 
-    // SET 8: Numbers
-    { ch: 8, name: "Number Systems", q: "Decimal '10' is __________ in binary.", a: ["1000", "0010", "1010", "0001"], c: 2 },
-    { ch: 8, q: "Decimal '10' is __________ in hexadecimal.", a: ["1", "A", "0", "F"], c: 1 },
-    { ch: 8, q: "Four bits is called a _________.", a: ["radix point", "byte", "nibble", "binary digit"], c: 2 },
+    // CHƯƠNG 8 (BỔ SUNG ĐỦ 17 CÂU)
+    { ch: 8, q: "1. A sequence of hexadecimal digits can be thought of as representing an integer in base 10 (T/F)?", a: ["True", "False"], c: 0 },
+    { ch: 8, q: "2. Because of inherent binary nature of components, all data are represented by binary codes (T/F)?", a: ["True", "False"], c: 0 },
+    { ch: 8, q: "3. The decimal system has a base of _________.", a: ["0", "10", "100", "1000"], c: 1 },
+    { ch: 8, q: "4. Which digit represents 'hundreds' in the number 8732?", a: ["8", "7", "3", "2"], c: 1 },
+    { ch: 8, q: "5. Which of the following expansion is correct for 7523?", a: ["25=(2x10^2)", "289=(2x10^3)", "7523=(7x10^3)+(5x10^2)+(2x10^1)+(3x10^0)", "0.628=(6x10^-3)"], c: 2 },
+    { ch: 8, q: "6. In number 3109, the 3 is referred to as the _________.", a: ["most significant digit", "least significant digit", "radix", "base"], c: 0 },
+    { ch: 8, q: "7. In number 3109, the 9 is referred to as the _________.", a: ["most significant digit", "least significant digit", "radix", "base"], c: 1 },
+    { ch: 8, q: "8. Numbers in the binary system are represented to the _________.", a: ["base 0", "base 1", "base 2", "base 10"], c: 2 },
+    { ch: 8, q: "9. Hexadecimal has a base of _________.", a: ["2", "8", "10", "16"], c: 3 },
+    { ch: 8, q: "10. The binary string 110111100001 is equivalent to _________.", a: ["DE1 (16)", "C78 (16)", "FF64 (16)", "B8F (16)"], c: 0 },
+    { ch: 8, q: "11. The _________ system uses only the numbers 0 and 1.", a: ["positional", "binary", "hexadecimal", "decimal"], c: 1 },
+    { ch: 8, q: "12. Decimal '10' is __________ in binary.", a: ["1000", "0010", "1010", "0001"], c: 2 },
+    { ch: 8, q: "13. Decimal '10' is _________ in hexadecimal.", a: ["1", "A", "0", "FF"], c: 1 },
+    { ch: 8, q: "14. Four bits is called a _________.", a: ["radix point", "byte", "nibble", "binary digit"], c: 2 },
+    { ch: 8, q: "15. Another term for 'base' is _________.", a: ["radix", "integer", "position", "digit"], c: 0 },
+    { ch: 8, q: "16. In the number 472.156 the 2 is in the _________ position.", a: ["most significant digit", "radix point", "least significant digit", "units/integer part"], c: 3 },
+    { ch: 8, q: "17. Binary 0101 is hexadecimal _________.", a: ["0", "5", "A", "10"], c: 1 },
 
-    // SET 9: Logic
-    { ch: 9, name: "Digital Logic", q: "The operand ________ yields true if and only if both of its operands are true.", a: ["XOR", "OR", "AND", "NOT"], c: 2 },
-    { ch: 9, q: "A _______ produces output signal that is simple Boolean operation on input.", a: ["gate", "decoder", "counter", "flip-flop"], c: 0 },
-    { ch: 9, q: "CPUs use _________ counters, in which all flip-flops change at same time.", a: ["synchronous", "asynchronous", "clocked S-R", "ripple"], c: 0 },
+    // CHƯƠNG 9 -> 16 (Dữ liệu đầy đủ)
+    { ch: 9, q: "The operand AND yields true if and only if both operands are true.", a: ["XOR", "OR", "AND", "NOT"], c: 2 },
+    { ch: 9, q: "The operation OR yields true if either or both operands are true.", a: ["NOT", "AND", "NAND", "OR"], c: 3 },
+    { ch: 9, q: "The unary operation NOT inverts value of operand.", a: ["OR", "NOT", "NAND", "XOR"], c: 1 },
+    { ch: 9, q: "A gate is electronic circuit producing signal as simple Boolean operation.", a: ["gate", "decoder", "counter", "flip-flop"], c: 0 },
+    { ch: 9, q: "Which is functionally complete set?", a: ["AND, NOT", "NOR", "AND, OR, NOT", "all of the above"], c: 3 },
+    { ch: 9, q: "Tabular technique for > 4 variables is Quine-McCluskey.", a: ["DeMorgan", "Quine-McCluskey", "Karnaugh", "Boole"], c: 1 },
+    { ch: 9, q: "Multiplexers control signal and data routing in digital circuits.", a: ["Multiplexers", "Counters", "Flip-flops", "Gates"], c: 0 },
+    { ch: 9, q: "ROM is implemented with combinational circuits.", a: ["Nano", "RAM", "ROM", "None"], c: 2 },
+    { ch: 9, q: "The flip-flop exists in one of two states and remains there.", a: ["assert", "PLD", "decoder", "flip-flop"], c: 3 },
+    { ch: 9, q: "The J-K flip-flop has two inputs and all combinations are valid.", a: ["J-K", "D", "S-R", "Clocked"], c: 0 },
+    { ch: 9, q: "A shift register accepts/transfers information serially.", a: ["Latch", "shift register", "FPGA", "Parallel"], c: 1 },
+    { ch: 9, q: "Counters can be designated as synchronous or asynchronous.", a: ["asynchronous", "synchronous", "both", "neither"], c: 2 },
+    { ch: 9, q: "CPUs use synchronous counters (all flip-flops change at same time).", a: ["synchronous", "asynchronous", "Clocked", "ripple"], c: 0 },
+    { ch: 9, q: "The excitation table provides value of next output.", a: ["excitation", "Kenough", "J-K", "FPGA"], c: 0 },
+    { ch: 9, q: "FPGA is PLD with very high logic capacity.", a: ["SPLD", "FPGA", "PAL", "PLA"], c: 1 },
 
-    // SET 10: Instructions
-    { ch: 10, name: "Instruction Sets", q: "The __________ specifies the operation to be performed.", a: ["operand ref", "opcode", "next instr", "register"], c: 1 },
-    { ch: 10, q: "Entire set of parameters stored for procedure invocation is a _________.", a: ["branch", "stack frame", "pop", "push"], c: 1 },
-    { ch: 10, q: "Branch instruction in which branch is always taken is _________.", a: ["conditional", "unconditional", "jump", "bi-endian"], c: 1 },
+    // CHƯƠNG 10
+    { ch: 10, q: "The opcode specifies the operation to be performed.", a: ["source", "opcode", "next instruction", "register"], c: 1 },
+    { ch: 10, q: "High-level language expresses operations in concise algebraic form.", a: ["opcode", "high-level language", "machine language", "register"], c: 1 },
+    { ch: 10, q: "There must be memory instructions for moving data between memory/registers.", a: ["branch", "logic", "memory", "I/O"], c: 2 },
+    { ch: 10, q: "Logic instructions operate on bits of a word as bits.", a: ["Logic", "Arithmetic", "Memory", "Test"], c: 0 },
+    { ch: 10, q: "Arithmetic instructions provide computational capabilities for numbers.", a: ["Boolean", "Logic", "Memory", "Arithmetic"], c: 3 },
+    { ch: 10, q: "I/O instructions transfer programs/data into memory.", a: ["I/O", "Transfer", "Control", "Branch"], c: 0 },
+    { ch: 10, q: "The x86 integer is signed binary value using twos complement.", a: ["general", "ordinal", "integer", "packed BCD"], c: 2 },
+    { ch: 10, q: "The most fundamental type of machine instruction is data transfer.", a: ["conversion", "data transfer", "arithmetic", "logical"], c: 1 },
+    { ch: 10, q: "The skip instruction includes an implied address.", a: ["skip", "rotate", "stack", "push"], c: 0 },
+    { ch: 10, q: "Procedure call true statements: calls multiple locations, nested, return matched.", a: ["1&2", "2&3", "1&3", "all of the above"], c: 3 },
+    { ch: 10, q: "Stack frame includes entire set of parameters for procedure.", a: ["branch", "stack frame", "pop", "push"], c: 1 },
+    { ch: 10, q: "ARM data-processing instructions include logical, add, subtract.", a: ["data-processing", "branch", "load/store", "extend"], c: 0 },
+    { ch: 10, q: "In ARM only load and store instructions access memory.", a: ["data processing", "status", "load and store", "branch"], c: 2 },
+    { ch: 10, q: "MMX defines packed byte, word, doubleword.", a: ["byte", "word", "doubleword", "all of the above"], c: 3 },
+    { ch: 10, q: "Unconditional branch is when branch is always taken.", a: ["conditional", "unconditional", "jump", "bi-endian"], c: 1 },
 
-    // SET 11: Addressing
-    { ch: 11, name: "Addressing Modes", q: "Address field references memory and register contains displacement is:", a: ["indexing", "base-register", "relative", "all"], c: 1 },
-    { ch: 11, q: "Only form of addressing for branch instructions is _________.", a: ["register", "relative", "base", "immediate"], c: 1 },
-    { ch: 11, q: "__________ is a principle by which two variables are independent of each other.", a: ["Opcode", "Orthogonality", "Completeness", "Autoindexing"], c: 1 },
+    // CHƯƠNG 11
+    { ch: 11, q: "Advantage of immediate addressing is no memory reference required.", a: ["direct", "immediate", "register", "stack"], c: 1 },
+    { ch: 11, q: "Principal advantage of direct addressing is simplicity.", a: ["displacement", "register", "stack", "direct"], c: 3 },
+    { ch: 11, q: "Indirect addressing has large address space but multiple references.", a: ["Indirect", "Direct", "Immediate", "Stack"], c: 0 },
+    { ch: 11, q: "Register addressing has small address field and no memory references.", a: ["direct", "indirect", "register", "displacement"], c: 2 },
+    { ch: 11, q: "Displacement addressing has flexibility but complexity.", a: ["Stack", "Displacement", "Direct", "Register"], c: 1 },
+    { ch: 11, q: "For base-register addressing, register contains positive displacement.", a: ["indexing", "base-register", "relative", "all"], c: 1 },
+    { ch: 11, q: "Postindexing is indexing performed after indirection.", a: ["relative", "autoindexing", "postindexing", "preindexing"], c: 2 },
+    { ch: 11, q: "For immediate mode, operand is in instruction.", a: ["immediate", "base", "register", "displacement"], c: 0 },
+    { ch: 11, q: "Only form of addressing for branch is relative addressing.", a: ["register", "relative", "base", "immediate"], c: 1 },
+    { ch: 11, q: "Factors for addressing bits: # operands, # register sets, range.", a: ["A&B", "B&C", "A&C", "all of the above"], c: 3 },
+    { ch: 11, q: "Orthogonality is principle by which variables are independent.", a: ["Opcode", "Orthogonality", "Completeness", "Autoindexing"], c: 1 },
+    { ch: 11, q: "The PDP-11 provided powerful instruction set for 16-bit minicomputer.", a: ["PDP-1", "PDP-8", "PDP-11", "PDP-10"], c: 2 },
+    { ch: 11, q: "The SIB byte consists of Scale, Index and Base.", a: ["SIB", "VAX", "PDP-11", "ModR/M"], c: 0 },
+    { ch: 11, q: "ARM instructions are 32 bits long.", a: ["8", "16", "32", "64"], c: 2 },
+    { ch: 11, q: "Completeness is design principle in PDP-10.", a: ["Orthogonality", "Completeness", "Direct", "All"], c: 1 },
 
-    // SET 12: CPU Structure
-    { ch: 12, name: "CPU Structure", q: "The _________ contains the address of an instruction to be fetched.", a: ["IR", "MAR", "MBR", "PC"], c: 3 },
-    { ch: 12, q: "Conflict in access of an operand location in pipeline is a ________ hazard.", a: ["resource", "data", "structural", "control"], c: 1 },
-    { ch: 12, q: "The ARM architecture supports _______ execution modes.", a: ["2", "8", "11", "7"], c: 3 },
+    // CHƯƠNG 12
+    { ch: 12, q: "Registers are a set of storage locations.", a: ["Processors", "PSWs", "Registers", "Control"], c: 2 },
+    { ch: 12, q: "Control unit controls movement of data/instructions.", a: ["control unit", "ALU", "shifter", "branch"], c: 0 },
+    { ch: 12, q: "Data registers hold data only, no operand address calculation.", a: ["General", "Data", "Address", "Condition"], c: 1 },
+    { ch: 12, q: "Condition codes are bits set by hardware.", a: ["MIPS", "Condition codes", "Stacks", "PSWs"], c: 1 },
+    { ch: 12, q: "Program counter contains address of instruction to be fetched.", a: ["IR", "MAR", "MBR", "PC"], c: 3 },
+    { ch: 12, q: "MBR contains word to be written or most recently read.", a: ["MAR", "PC", "MBR", "IR"], c: 2 },
+    { ch: 12, q: "Decode instruction determines opcode/specifiers.", a: ["decode", "fetch ops", "calc ops", "execute"], c: 0 },
+    { ch: 12, q: "Pipeline hazard: control, resource, data.", a: ["Control", "Resource", "Data", "All"], c: 3 },
+    { ch: 12, q: "Data hazard is conflict in access of operand location.", a: ["resource", "data", "structural", "control"], c: 1 },
+    { ch: 12, q: "Loop buffer contains n most recently fetched instructions.", a: ["loop buffer", "delayed", "stream", "prediction"], c: 0 },
+    { ch: 12, q: "Branch history table is small cache for instruction fetch.", a: ["dynamic", "loop table", "branch history table", "flag"], c: 2 },
+    { ch: 12, q: "Execute stage includes ALU operations, cache access.", a: ["decode", "execute", "fetch", "write back"], c: 1 },
+    { ch: 12, q: "Trap flag is used for debugging.", a: ["Direction", "Alignment", "Trap flag", "ID flag"], c: 2 },
+    { ch: 12, q: "ARM supports 7 execution modes.", a: ["2", "8", "11", "7"], c: 3 },
+    { ch: 12, q: "OS usually runs in supervisor mode.", a: ["supervisor", "abort", "undefined", "fast IRQ"], c: 0 },
 
-    // SET 13: RISC
-    { ch: 13, name: "RISC", q: "The first commercial RISC product was _________.", a: ["SPARC", "CISC", "VAX", "The Pyramid"], c: 3 },
-    { ch: 13, q: "The MIPS R4000 uses ________ bits for data paths and addresses.", a: ["16", "32", "64", "128"], c: 2 },
-    { ch: 13, q: "R series processor instructions are encoded in a single ________ format.", a: ["4-bit", "8-bit", "16-bit", "32-bit"], c: 3 },
+    // CHƯƠNG 13
+    { ch: 13, q: "Execution sequencing determines control/pipeline organization.", a: ["Calc", "Execution sequencing", "Ops", "Operands"], c: 1 },
+    { ch: 13, q: "Patterson study examined HLL programs.", a: ["HLL", "RISC", "CISC", "all"], c: 0 },
+    { ch: 13, q: "Register storage is fastest available.", a: ["Main", "Cache", "Register", "HLL"], c: 2 },
+    { ch: 13, q: "Pyramid was the first commercial RISC.", a: ["SPARC", "CISC", "VAX", "Pyramid"], c: 3 },
+    { ch: 13, q: "Load-and-store instructions position quantities in registers.", a: ["Load-and-store", "Window", "Complex", "Branch"], c: 0 },
+    { ch: 13, q: "I, E, D stages all required for load/store.", a: ["I", "E", "D", "all of the above"], c: 3 },
+    { ch: 13, q: "NOOP instruction accounts for data/branch delays.", a: ["SUB", "NOOP", "JUMP", "all"], c: 1 },
+    { ch: 13, q: "Delay slot immediately follows delayed branch.", a: ["delay load", "delay file", "delay slot", "delay register"], c: 2 },
+    { ch: 13, q: "Delayed load used on LOAD instructions.", a: ["delayed load", "program", "slot", "register"], c: 0 },
+    { ch: 13, q: "MIPS R4000 uses 64 bits.", a: ["16", "32", "64", "128"], c: 2 },
+    { ch: 13, q: "MIPS encoded in 32-bit format.", a: ["4", "8", "16", "32"], c: 3 },
+    { ch: 13, q: "Superpipelined makes use of fine-grained stages.", a: ["parallel", "superpipelined", "superscalar", "hybrid"], c: 1 },
+    { ch: 13, q: "R4000 can have 8 instructions in pipeline.", a: ["8", "10", "5", "3"], c: 0 },
+    { ch: 13, q: "SPARC defined by Sun Microsystems.", a: ["MS", "Apple", "Sun", "IBM"], c: 2 },
+    { ch: 13, q: "Write back stage writes result to register file.", a: ["write back", "tag", "cache", "execute"], c: 0 },
 
-    // SET 14: Superscalar
-    { ch: 14, name: "Superscalar", q: "Executing instructions independently and concurrently in different pipelines is:", a: ["scalar", "branch", "superscalar", "flow"], c: 2 },
-    { ch: 14, q: "Instruction issue refers to _________.", a: ["initiating execution", "in-order", "out-of-order", "procedural"], c: 0 },
+    // CHƯƠNG 14
+    { ch: 14, q: "Superscalar approach can be used on both RISC/CISC.", a: ["RISC", "CISC", "neither", "both"], c: 3 },
+    { ch: 14, q: "Superscalar essence is executing instructions independently.", a: ["scalar", "branch", "superscalar", "flow"], c: 2 },
+    { ch: 14, q: "Parallelism limitation: procedural, resource, anti-dependency.", a: ["proc", "res", "anti", "all"], c: 3 },
+    { ch: 14, q: "True data dependency: 2nd needs data from 1st.", a: ["true data dependency", "output", "procedural", "anti"], c: 0 },
+    { ch: 14, q: "Procedural dependency: instructions after branch wait.", a: ["resource", "procedural", "output", "true data"], c: 1 },
+    { ch: 14, q: "Instruction issue: process of initiating execution.", a: ["Issue", "In-order", "Out-of-order", "Procedural"], c: 0 },
+    { ch: 14, q: "Antidependency: 2nd destroys value 1st uses.", a: ["in-order", "resource", "antidependency", "out-of-order"], c: 2 },
+    { ch: 14, q: "State indicates micro-op status.", a: ["State", "Address", "Micro-op", "Alias"], c: 0 },
+    { ch: 14, q: "Instruction-level parallelism: instructions in sequence independent.", a: ["Flow", "Instruction-level parallelism", "Machine", "Issue"], c: 1 },
+    { ch: 14, q: "Machine parallelism: determined by simultaneous fetch/exec.", a: ["Machine", "Instruction-level", "Output", "Procedural"], c: 0 },
+    { ch: 14, q: "Instruction issue policy is protocol to issue instructions.", a: ["Micro", "Scalar", "SIMD", "Issue policy"], c: 3 },
+    { ch: 14, q: "Out-of-order completion improves performance of multi-cycle instructions.", a: ["In-order comp", "In-order issue", "Out-of-order comp", "Out-of-order issue"], c: 2 },
+    { ch: 14, q: "Hardware tech: duplication, out-of-order, renaming.", a: ["dup", "ooo", "rename", "all"], c: 3 },
+    { ch: 14, q: "Pentium Pro introduced full-blown superscalar/OOO.", a: ["Pentium", "Pentium Pro", "386", "486"], c: 1 },
+    { ch: 14, q: "Pentium uses BTB for dynamic branch prediction.", a: ["486", "Pentium", "P4", "P-Pro"], c: 1 },
 
-    // SET 15: Parallel
-    { ch: 15, name: "Parallel Processing", q: "Flynn's taxonomy is for categorizing _________ systems.", a: ["Randolph", "Flynn", "von Neuman", "Desai"], c: 1 },
-    { ch: 15, q: "Vector and array processors fall into ________ category.", a: ["SIMD", "SISD", "MISD", "MIMD"], c: 0 },
-    { ch: 15, q: "Dispatchable unit of work within a process is a ________.", a: ["process", "switch", "thread", "packet"], c: 2 },
+    // CHƯƠNG 15
+    { ch: 15, q: "Flynn introduced most common parallel taxonomy.", a: ["Randolph", "Flynn", "von Neuman", "Desai"], c: 1 },
+    { ch: 15, q: "Uniprocessors are SISD.", a: ["MIMD", "SIMD", "SISD", "MISD"], c: 2 },
+    { ch: 15, q: "Vector/array processors are SIMD.", a: ["SIMD", "SISD", "MISD", "MIMD"], c: 0 },
+    { ch: 15, q: "SMP/Clusters are MIMD.", a: ["SISD", "MIMD", "SIMD", "MISD"], c: 1 },
+    { ch: 15, q: "Cache coherence problem with multiple copies of data.", a: ["cache coherence", "cluster", "failover", "failback"], c: 0 },
+    { ch: 15, q: "Cache coherence protocols are hardware-based.", a: ["clusters", "streams", "protocols", "vectors"], c: 2 },
+    { ch: 15, q: "Process is instance of program running.", a: ["process", "proc switch", "thread", "thread switch"], c: 0 },
+    { ch: 15, q: "Thread is dispatchable unit of work.", a: ["process", "switch", "thread", "packet"], c: 2 },
+    { ch: 15, q: "Chip multiprocessing: entire processor replicated.", a: ["interleaved", "blocked", "simultaneous", "chip multiprocessing"], c: 3 },
+    { ch: 15, q: "Single-threaded scalar is traditional RISC/CISC pipeline.", a: ["superscalar", "single-threaded scalar", "blocked", "interleaved"], c: 1 },
+    { ch: 15, q: "Chaining: results from one unit fed to another.", a: ["Chaining", "Rollover", "Passive", "Pipelining"], c: 0 },
+    { ch: 15, q: "Vector-status register contains control fields.", a: ["mask", "activity", "status", "instr"], c: 2 },
+    { ch: 15, q: "Vector computation approach: pipelined ALU, parallel ALU, parallel processors.", a: ["pipe", "parallel", "proc", "all of the above"], c: 3 },
+    { ch: 15, q: "Process switch: saving all process data/registers.", a: ["resource", "process switch", "thread", "cluster"], c: 1 },
+    { ch: 15, q: "SMT: instructions issued from multiple threads simultaneously.", a: ["SMT", "scalar", "coarse", "chip"], c: 0 },
 
-    // SET 16: Multicore
-    { ch: 16, name: "Multicore", q: "Controlling power density by using more chip area for ________.", a: ["multicore", "cache memory", "silicon", "resistors"], c: 1 },
-    { ch: 16, q: "Snoop Control Unit (SCU) maintains coherency among ________.", a: ["L1 caches", "L2 caches", "L3 caches", "Main memory"], c: 0 }
+    // CHƯƠNG 16
+    { ch: 16, q: "SMT: register banks replicated for thread sharing.", a: ["SMT", "pipe", "scalar", "superscalar"], c: 0 },
+    { ch: 16, q: "Pipelining: individual instructions executed through stages.", a: ["Superscalar", "Scalar", "Pipelining", "SMT"], c: 2 },
+    { ch: 16, q: "Superscalar: multiple pipelines constructed.", a: ["Vectoring", "Superscalar", "Hybrid", "Pipelining"], c: 1 },
+    { ch: 16, q: "Cache memory uses chip area to control power density.", a: ["multicore", "cache memory", "silicon", "resistors"], c: 1 },
+    { ch: 16, q: "Multi-instance applications: Lotus Domino, Siebel CRM.", a: ["threaded", "multi-process", "Java", "multi-instance"], c: 3 },
+    { ch: 16, q: "Multithreaded native applications: Oracle, SAP, PeopleSoft.", a: ["Java", "multithreaded native", "multi-instance", "multi-process"], c: 1 },
+    { ch: 16, q: "Java applications: Sun Java AS, Tomcat, Websphere.", a: ["Multi-instance", "multi-process", "Java", "Threaded"], c: 2 },
+    { ch: 16, q: "Coarse threading: Rendering on 1, AI on another, Physics on 3rd.", a: ["coarse", "instance", "fine", "hybrid"], c: 0 },
+    { ch: 16, q: "Fine-grained threading: loop iterates split into parallel threads.", a: ["multi-process", "fine-grained", "hybrid", "coarse"], c: 1 },
+    { ch: 16, q: "Intel Core i7: shared L3, dedicated L1/L2.", a: ["IBM 370", "ARM11", "AMD", "Intel Core i7"], c: 3 },
+    { ch: 16, q: "Bus interface connects to Front Side Bus.", a: ["L2", "APIC", "bus interface", "all"], c: 2 },
+    { ch: 16, q: "i7-990X implements 6 SMT processors.", a: ["2", "4", "6", "8"], c: 2 },
+    { ch: 16, q: "Cores is another name for processors.", a: ["dies", "cores", "QPI", "interconnects"], c: 1 },
+    { ch: 16, q: "Migratory lines: moving dirty data between CPUs.", a: ["migratory lines", "DDI", "VFP", "IPIs"], c: 0 },
+    { ch: 16, q: "SCU maintains coherency among L1 data caches.", a: ["VFP", "DIC", "snoop control unit (SCU)", "watchdog"], c: 2 }
 ];
 
-let quiz = [];
+let currentQuestions = [];
 let currentIdx = 0;
-let correct = 0;
-let wrong = 0;
+let answeredCorrectly = false;
+let firstTry = true; // Biến kiểm tra xem có phải lần click đầu tiên cho câu này không
 
 function toggleTheme() {
     const body = document.body;
     const isDark = body.getAttribute('data-theme') === 'dark';
     body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.querySelector('.theme-toggle i').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+    document.querySelector('.theme-btn i').className = isDark ? 'fas fa-moon' : 'fas fa-sun';
 }
 
-function startQuiz() {
-    const ch = document.getElementById('chapter-select').value;
-    quiz = ch === 'all' ? [...bank] : bank.filter(q => q.ch == ch);
-    quiz.sort(() => Math.random() - 0.5); // Shuffle
-    
-    currentIdx = 0; correct = 0; wrong = 0;
-    
-    document.getElementById('setup-screen').style.display = 'none';
-    document.getElementById('stats-grid').style.display = 'grid';
-    document.getElementById('quiz-screen').style.display = 'block';
-    
-    updateStats();
+function loadChapter() {
+    const val = document.getElementById('chapterSelect').value;
+    if (val === "0") return;
+    currentQuestions = (val === "all") ? [...masterData] : masterData.filter(q => q.ch == val);
+    currentQuestions.sort(() => Math.random() - 0.5);
+    currentIdx = 0;
+    document.getElementById('quizContent').style.display = 'block';
+    document.getElementById('summaryArea').style.display = 'none';
     renderQuestion();
 }
 
 function renderQuestion() {
-    if (currentIdx >= quiz.length) {
-        showResults();
-        return;
-    }
+    answeredCorrectly = false;
+    firstTry = true; // Reset trạng thái lần đầu cho câu mới
+    const data = currentQuestions[currentIdx];
+    document.getElementById('chapterInfo').innerText = `Chương ${data.ch}`;
+    document.getElementById('counterInfo').innerText = `Câu ${currentIdx + 1}/${currentQuestions.length}`;
+    document.getElementById('questionText').innerText = data.q;
+    document.getElementById('feedback').innerText = "";
+    document.getElementById('nextBtn').disabled = true;
 
-    const data = quiz[currentIdx];
-    document.getElementById('meta-chapter').innerText = `Chương ${data.ch}: ${data.name || ""}`;
-    document.getElementById('meta-index').innerText = `Câu hỏi ${currentIdx + 1}/${quiz.length}`;
-    document.getElementById('question-text').innerText = data.q;
-    document.getElementById('feedback-text').innerText = "";
-    document.getElementById('next-btn').disabled = true;
-
-    const list = document.getElementById('options-list');
+    const list = document.getElementById('optionsList');
     list.innerHTML = "";
-    
-    data.a.forEach((opt, i) => {
-        const btn = document.createElement('div');
-        btn.className = 'option-item fade-in';
-        btn.innerText = opt;
-        btn.onclick = () => selectOption(i, btn);
-        list.appendChild(btn);
+    data.a.forEach((opt, idx) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.innerText = opt;
+        div.onclick = () => handleSelect(idx, div);
+        list.appendChild(div);
     });
-
-    const progress = (currentIdx / quiz.length) * 100;
-    document.getElementById('progress-fill').style.width = progress + "%";
+    document.getElementById('progressBar').style.width = ((currentIdx) / currentQuestions.length * 100) + "%";
 }
 
-function selectOption(idx, el) {
-    if (document.getElementById('next-btn').disabled === false) return;
-
-    const correctIdx = quiz[currentIdx].c;
-    const items = document.querySelectorAll('.option-item');
+function handleSelect(idx, el) {
+    if (answeredCorrectly) return;
+    const correctIdx = currentQuestions[currentIdx].c;
+    const feedback = document.getElementById('feedback');
 
     if (idx === correctIdx) {
         el.classList.add('correct');
-        correct++;
-        document.getElementById('feedback-text').innerHTML = `<span style="color:var(--success)">Chính xác! ✨</span>`;
+        feedback.innerText = "Chính xác! Click nút bên dưới để tiếp tục.";
+        feedback.style.color = "var(--success)";
+        
+        if (firstTry) {
+            let curCorrect = parseInt(document.getElementById('correctScore').innerText);
+            document.getElementById('correctScore').innerText = curCorrect + 1;
+        }
+        
+        answeredCorrectly = true;
+        document.getElementById('nextBtn').disabled = false;
+        document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
     } else {
         el.classList.add('wrong');
-        items[correctIdx].classList.add('correct');
-        wrong++;
-        document.getElementById('feedback-text').innerHTML = `<span style="color:var(--danger)">Sai rồi! 😢</span>`;
+        feedback.innerText = "Sai rồi! Hãy chọn đáp án khác.";
+        feedback.style.color = "var(--danger)";
+        
+        // Cộng điểm sai
+        let curWrong = parseInt(document.getElementById('wrongScore').innerText);
+        document.getElementById('wrongScore').innerText = curWrong + 1;
+        
+        firstTry = false; // Sau khi chọn sai 1 lần, câu này không được tính là "Đúng lần đầu" nữa
     }
+}
 
-    updateStats();
-    document.getElementById('next-btn').disabled = false;
+function nextQuestion() {
     currentIdx++;
-}
-
-function updateStats() {
-    document.getElementById('stat-correct').innerText = correct;
-    document.getElementById('stat-wrong').innerText = wrong;
-    const total = correct + wrong;
-    const percent = total === 0 ? 0 : Math.round((correct / total) * 100);
-    document.getElementById('stat-percent').innerText = percent + "%";
-}
-
-function showResults() {
-    document.getElementById('quiz-screen').style.display = 'none';
-    document.getElementById('result-screen').style.display = 'block';
-    document.getElementById('progress-fill').style.width = "100%";
-    
-    const finalScore = document.getElementById('final-score');
-    finalScore.innerText = `${correct}/${quiz.length}`;
-    
-    const percent = (correct / quiz.length) * 100;
-    let comment = "";
-    if (percent === 100) {
-        comment = "Tuyệt vời! Bạn là một chuyên gia thực thụ. 🏆";
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-    } else if (percent >= 80) {
-        comment = "Rất tốt! Bạn nắm kiến thức rất chắc chắn. 🔥";
-        confetti({ particleCount: 100, spread: 50 });
-    } else if (percent >= 50) {
-        comment = "Tạm ổn, hãy ôn luyện thêm các câu sai nhé. 👍";
-    } else {
-        comment = "Bạn cần đọc lại tài liệu chương này kỹ hơn. 📚";
+    if (currentIdx < currentQuestions.length) renderQuestion();
+    else {
+        document.getElementById('progressBar').style.width = "100%";
+        document.getElementById('quizContent').style.display = 'none';
+        document.getElementById('summaryArea').style.display = 'block';
     }
-    document.getElementById('result-comment').innerText = comment;
 }
 </script>
-
 </body>
-                </html>
+</html>
